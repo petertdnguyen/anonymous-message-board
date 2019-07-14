@@ -55,7 +55,7 @@ module.exports = function (app) {
                       res.status(500).send({
                         message: err.message || "Error occured in retrieving issues"
                       })
-          })
+          })}
   ; //End app.route('/api/threads/:board')
 
   app.route('/api/replies/:board')
