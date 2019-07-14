@@ -47,8 +47,14 @@ module.exports = function (app) {
   app.route('/api/threads/:board')
           .get( (request, response) => {
             const boardRequested = request.params.board;
-            console.log("board requested:" + boardRequested);
-            createAndUpdateBoard( boardRequested);
+            createAndUpdateBoard(boardRequested);
+
+            response.find(boardRequested)
+                    .then( board => request.send(board) )
+                    .catch( error => {
+                      response.status(500)
+                              .send({ message: error.message || "Error occured in retrieving message board." })
+                    });
           })
   ; //End app.route('/api/threads/:board')
 
