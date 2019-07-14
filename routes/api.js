@@ -29,10 +29,30 @@ module.exports = function (app) {
             process.exit();
           });
 
-  
-  
-  app.route('/api/threads/:board');
+  app.route('/api/threads/:board')
+  ; //End app.route('/api/threads/:board')
 
-  app.route('/api/replies/:board');
+  //message board functions
+  function createAndUpdateBoard(boardName) {
+    //search filters
+    let query = { boardName: boardName};
+    let update = {  };
+    let options = { upsert: true, new: true, setDefaultsOnInsert: true };
+
+    messageBoard  .findOneAndUpdate(query, update, options)
+                  .catch(err => {
+                    return {
+                      message: err.message || "Error occured in looking up message board."
+                    };
+                  });
+  }
+
+
+  app.route('/api/replies/:board')
+          .get( (request, response) => {
+            const boardRequested = req.params.board;
+            console.log(boardRequested);
+            createAndUpdateBoard(boardRequested);
+          })
 
 };
