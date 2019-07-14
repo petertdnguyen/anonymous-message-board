@@ -50,7 +50,7 @@ module.exports = function (app) {
             createAndUpdateBoard(boardRequested);
 
             response.find(boardRequested)
-                    .then( board => request.send(board) )
+                    .then( board => request.send("SUCCESS") )
                     .catch( error => {
                       response.status(500)
                               .send({ message: error.message || "Error occured in retrieving message board." })
