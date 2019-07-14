@@ -29,9 +29,6 @@ module.exports = function (app) {
             process.exit();
           });
 
-  app.route('/api/threads/:board')
-  ; //End app.route('/api/threads/:board')
-
   //message board functions
   function createAndUpdateBoard(boardName) {
     //search filters
@@ -47,12 +44,14 @@ module.exports = function (app) {
                   });
   }
 
-
-  app.route('/api/replies/:board')
+  app.route('/api/threads/:board')
           .get( (request, response) => {
             const boardRequested = request.params.board;
-            console.log(boardRequested);
-            createAndUpdateBoard(boardRequested);
+            console.log("board requested:" + boardRequested);
+            createAndUpdateBoard( boardRequested);
           })
+  ; //End app.route('/api/threads/:board')
+
+  app.route('/api/replies/:board')
 
 };
