@@ -50,7 +50,7 @@ module.exports = function (app) {
 
   app.route('/api/replies/:board')
           .get( (request, response) => {
-            const boardRequested = req.params.board;
+            const boardRequested = request.params.board;
             console.log(boardRequested);
             createAndUpdateBoard(boardRequested);
           })
