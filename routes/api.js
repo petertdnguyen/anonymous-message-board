@@ -46,11 +46,12 @@ module.exports = function (app) {
 
   app.route('/api/threads/:board')
           .get( (request, response) => {
-            const boardRequested = request.params.board;
+            const boardRequested = {boardName: request.params.board};
+            console.log("boardRequested: " + boardRequested);
             createAndUpdateBoard(boardRequested);
 
             messageBoard.find(boardRequested)
-                    .then( board => request.send({message: "SUCCESS"}) )
+                    .then( board => request.send(board) )
                     .catch(err => {
                       response.status(500).send({
                         message: err.message || "Error occured in retrieving issues"
