@@ -44,10 +44,25 @@ module.exports = function (app) {
                   });
   }
 
+  //message board functions, with new thread to update
+  function createAndUpdateBoard(boardName, newThread, deletePassword) {
+    //search filters
+    let query = { boardName: boardName};
+    let update = { $push: {threadName: newThread, threadPassword: deletePassword} };
+    let options = { upsert: true, new: true, setDefaultsOnInsert: true };
+
+    messageBoard  .findOneAndUpdate(query, update, options)
+                  .catch(err => {
+                    return {
+                      message: err.message || "Error occured in looking up message board."
+                    };
+                  });
+  }
+
   app.route('/api/threads/:board')
           .get( (request, response) => {
             const boardRequested = {boardName: request.params.board};
-            console.log("boardRequested: " + boardRequested);
+            // console.log("boardRequested: " + boardRequested);
             createAndUpdateBoard(boardRequested);
 
             messageBoard.find(boardRequested)
@@ -56,7 +71,16 @@ module.exports = function (app) {
                       response.status(500).send({
                         message: err.message || "Error occured in retrieving issues"
                       })
-          })}) //End app.route('/api/threads/:board')
+          })}) //End app.route.get('/api/threads/:board')
+          .post( (request, rsponse) => {
+            //create new thread and upsert into the board
+            boardName = request.param.board;
+            threadName = request.param.text;
+            threadPassword = request.param.delete_password;
+            console.log({boardName: boardName, threadName: threadName, threadPassword: threadPassword});
+            //find board and create if not existing
+
+          } )
 
   app.route('/api/replies/:board')
 
