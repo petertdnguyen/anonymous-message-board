@@ -52,6 +52,7 @@ module.exports = function (app) {
     let options = { upsert: true, new: true, setDefaultsOnInsert: true };
 
     messageBoard  .findOneAndUpdate(query, update, options)
+                  .then(updatedThread => response.send(updatedThread))
                   .catch(err => {
                     return {
                       message: err.message || "Error occured in looking up message board."
@@ -72,15 +73,15 @@ module.exports = function (app) {
                         message: err.message || "Error occured in retrieving issues"
                       })
           })}) //End app.route.get('/api/threads/:board')
-          .post( (request, rsponse) => {
+          .post( (request, response) => {
             //create new thread and upsert into the board
             console.log(request);
-            boardName = request.params.board;
-            threadName = request.params.text;
-            threadPassword = request.params.delete_password;
-            console.log({boardName: boardName, threadName: threadName, threadPassword: threadPassword});
+            boardName = request.body.board;
+            threadName = request.body.text;
+            threadPassword = request.body.delete_password;
+            // console.log({boardName: boardName, threadName: threadName, threadPassword: threadPassword});
             //find board and create if not existing
-
+            createAndUpdateBoard(boardName, threadName, threadPassword);
           } )
 
   app.route('/api/replies/:board')
