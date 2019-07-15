@@ -52,7 +52,7 @@ module.exports = function (app) {
             messageBoard.find(boardRequested)
                     .then( board => request.send("SUCCESS") )
                     .catch(err => {
-                      res.status(500).send({
+                      response.status(500).send({
                         message: err.message || "Error occured in retrieving issues"
                       })
           })}) //End app.route('/api/threads/:board')
