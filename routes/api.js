@@ -48,11 +48,11 @@ module.exports = function (app) {
   function createAndUpdateBoard(boardName, newThread, deletePassword) {
     //search filters
     let query = { boardName: boardName};
-    let update = { $push: {threadName: newThread, threadPassword: deletePassword} };
+    let update = { $push: {"threads.threadName": newThread, "threads.threadPassword": deletePassword} };
     let options = { upsert: true, new: true, setDefaultsOnInsert: true };
 
     messageBoard  .findOneAndUpdate(query, update, options)
-                  .then(updatedThread => response.send(updatedThread))
+                  .then(updatedBoard => response.send(updatedBoard))
                   .catch(err => {
                     return {
                       message: err.message || "Error occured in looking up message board."
