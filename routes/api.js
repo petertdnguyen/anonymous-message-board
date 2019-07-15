@@ -49,7 +49,7 @@ module.exports = function (app) {
             const boardRequested = request.params.board;
             createAndUpdateBoard(boardRequested);
 
-            response.find(boardRequested)
+            messageBoard.find(boardRequested)
                     .then( board => request.send("SUCCESS") )
                     .catch(err => {
                       res.status(500).send({
