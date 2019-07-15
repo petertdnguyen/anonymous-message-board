@@ -76,9 +76,9 @@ module.exports = function (app) {
           .post( (request, response) => {
             //create new thread and upsert into the board
             console.log(request.body);
-            boardName = request.body.board;
-            threadName = request.body.text;
-            threadPassword = request.body.delete_password;
+            const boardName = request.body.board;
+            const threadName = request.body.text;
+            const threadPassword = request.body.delete_password;
             // console.log({boardName: boardName, threadName: threadName, threadPassword: threadPassword});
             //find board and create if not existing
             createAndUpdateBoard(boardName, threadName, threadPassword);
