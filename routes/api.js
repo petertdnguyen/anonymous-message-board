@@ -75,7 +75,7 @@ module.exports = function (app) {
           })}) //End app.route.get('/api/threads/:board')
           .post( (request, response) => {
             //create new thread and upsert into the board
-            console.log(request);
+            console.log(request.body);
             boardName = request.body.board;
             threadName = request.body.text;
             threadPassword = request.body.delete_password;
